@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../NetKubernetes.Models/NetKubernetes.Models.csproj" />
+    <ProjectReference Include="../NetKubernetes.Persistence/NetKubernetes.Persistence.csproj" />
+    <ProjectReference Include="../NetKubernetes.Token/NetKubernetes.Token.csproj" />
+    <ProjectReference Include="../NetKubernetes.DTO/NetKubernetes.DTO.csproj" />
+    <ProjectReference Include="../NetKubernetes.Middleware/NetKubernetes.Middleware.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
+  </ItemGroup>
+
+</Project>
