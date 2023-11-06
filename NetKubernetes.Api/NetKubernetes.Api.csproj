@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="../NetKubernetes.Middleware/NetKubernetes.Middleware.csproj" />
+    <ProjectReference Include="../NetKubernetes.Repository/NetKubernetes.Repository.csproj" />
   </ItemGroup>
 
   <ItemGroup>
