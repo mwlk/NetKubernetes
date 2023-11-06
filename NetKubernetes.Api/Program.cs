@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Netkubernetes.Repository.Interfaces;
@@ -102,10 +103,30 @@ app.UseMiddleware<ManagerMiddleware>();
 
 app.UseAuthentication();
 
+app.UseCors("appcors");
 // app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
 app.MapControllers();
+
+using (var environment = app.Services.CreateScope())
+{
+    var services = environment.ServiceProvider;
+
+    try
+    {
+        var userManager = services.GetRequiredService<UserManager<User>>();
+        var context = services.GetRequiredService<AppDbContext>();
+
+        await context.Database.MigrateAsync();
+        await LoadDatabase.InserData(context, userManager);
+    }
+    catch (Exception e)
+    {
+        var logging = services.GetRequiredService<ILogger<Program>>();
+        logging.LogError(e, "migration failure");
+    }
+}
 
 app.Run();
