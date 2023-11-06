@@ -11,6 +11,6 @@ public class PropertyProfile : Profile
     {
         CreateMap<Property, PropertyResponseDto>();
 
-        CreateMap<PropertyResponseDto, Property>();
+        CreateMap<PropertyRequestDto, Property>();
     }
 }
