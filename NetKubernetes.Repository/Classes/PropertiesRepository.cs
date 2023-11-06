@@ -1,5 +1,7 @@
+using System.Net;
 using Microsoft.AspNetCore.Identity;
 using Netkubernetes.Repository.Interfaces;
+using NetKubernetes.Middleware;
 using NetKubernetes.Models;
 using NetKubernetes.Persistence;
 using NetKubernetes.Token.Interfaces;
@@ -22,6 +24,18 @@ public class PropertiesRepository : IPropertiesRepository
     public async Task AddAsync(Property property)
     {
         var user = await _userManager.FindByNameAsync(_userSession.GetUserSession());
+
+        if (user is null)
+            throw new MiddlewareException(
+                HttpStatusCode.Unauthorized,
+                new { message = "User Not Valid" }
+            );
+
+        if (property is null)
+            throw new MiddlewareException(
+                HttpStatusCode.BadRequest,
+                new { message = "Property is null" }
+            );
 
         property.CreationDate = DateTime.Now;
         property.UserId = Guid.Parse(user!.Id);
