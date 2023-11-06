@@ -22,20 +22,20 @@ public class PropertiesController : ControllerBase
     }
 
     [HttpGet]
-    public IActionResult GetProperties(CancellationToken cancellationToken)
+    public async Task<IActionResult> GetPropertiesAsync(CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        var entities = _repository.GetAllEntities();
+        var entities = await _repository.GetAllEntities();
 
         return Ok(_mapper.Map<IEnumerable<PropertyResponseDto>>(entities));
     }
 
     [HttpGet("{id}", Name = "GetPropertyById")]
-    public IActionResult GetPropertyById(int id, CancellationToken cancellationToken)
+    public async Task<IActionResult> GetPropertyByIdAsync(int id, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
 
-        var entity = _repository.
+        var entity = await _repository.
         GetEntityById(id);
 
         if (entity is null)
@@ -48,25 +48,25 @@ public class PropertiesController : ControllerBase
 
 
     [HttpPost]
-    public IActionResult Save([FromBody] PropertyRequestDto request, CancellationToken cancellationToken)
+    public async Task<IActionResult> Save([FromBody] PropertyRequestDto request, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
 
         var propertyModel = _mapper.Map<Property>(request);
 
-        _repository.AddAsync(propertyModel);
-        _repository.SaveChanges();
+        await _repository.AddAsync(propertyModel);
+        await _repository.SaveChanges();
 
         var response = _mapper.Map<PropertyResponseDto>(propertyModel);
 
-        return CreatedAtRoute(nameof(GetPropertyById), new { response.Id });
+        return CreatedAtRoute(nameof(GetPropertyByIdAsync), new { response.Id });
     }
 
     [HttpDelete]
-    public IActionResult Delete(int id)
+    public async Task<IActionResult> Delete(int id)
     {
-        _repository.Delete(id);
-        _repository.SaveChanges();
+        await _repository.Delete(id);
+        await _repository.SaveChanges();
         return Ok();
     }
 }

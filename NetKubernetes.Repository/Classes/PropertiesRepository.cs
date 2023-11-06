@@ -1,5 +1,6 @@
 using System.Net;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Netkubernetes.Repository.Interfaces;
 using NetKubernetes.Middleware;
 using NetKubernetes.Models;
@@ -40,30 +41,30 @@ public class PropertiesRepository : IPropertiesRepository
         property.CreationDate = DateTime.Now;
         property.UserId = Guid.Parse(user!.Id);
 
-        _context.Properties!.Add(property);
+        await _context.Properties!.AddAsync(property);
     }
 
-    public void Delete(int id)
+    public async Task Delete(int id)
     {
-        var property = _context.Properties!
-        .FirstOrDefault(p => p.Id == id);
+        var property = await _context.Properties!
+        .FirstOrDefaultAsync(p => p.Id == id);
 
         _context.Properties!.Remove(property!);
     }
 
-    public IEnumerable<Property> GetAllEntities()
+    public async Task<IEnumerable<Property>> GetAllEntities()
     {
-        return _context.Properties!.ToList();
+        return await _context.Properties!.ToListAsync();
     }
 
-    public Property GetEntityById(int id)
+    public async Task<Property> GetEntityById(int id)
     {
-        return _context.Properties!
-        .FirstOrDefault(p => p.Id == id)!;
+        return await _context.Properties!
+        .FirstOrDefaultAsync(p => p.Id == id)!;
     }
 
-    public bool SaveChanges()
+    public async Task<bool> SaveChanges()
     {
-        return _context.SaveChanges() >= 0;
+        return await _context.SaveChangesAsync() >= 0;
     }
 }

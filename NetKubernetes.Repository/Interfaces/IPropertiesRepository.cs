@@ -4,13 +4,13 @@ namespace Netkubernetes.Repository.Interfaces;
 
 public interface IPropertiesRepository
 {
-    bool SaveChanges();
+    Task<bool> SaveChanges();
 
-    IEnumerable<Property> GetAllEntities();
+    Task<IEnumerable<Property>> GetAllEntities();
 
-    Property GetEntityById(int id);
+    Task<Property> GetEntityById(int id);
 
     Task AddAsync(Property property);
 
-    void Delete(int id);
+    Task Delete(int id);
 }
