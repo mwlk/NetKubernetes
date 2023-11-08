@@ -14,7 +14,7 @@ public class JwtGenerator : IJwtGenerator
         var claims = new List<Claim>
         {
             new Claim(JwtRegisteredClaimNames.NameId, user.UserName!),
-            new Claim("userId", user.Id!)
+            // new Claim("userId", user.Id!)
         };
 
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("My_Secret"));
@@ -24,8 +24,9 @@ public class JwtGenerator : IJwtGenerator
         var tokenDescription = new SecurityTokenDescriptor
         {
             Subject = new ClaimsIdentity(claims),
-            Expires = DateTime.Now.AddMinutes(60),
-            SigningCredentials = credentials
+            Expires = DateTime.UtcNow.AddMinutes(30),
+            SigningCredentials = credentials,
+            NotBefore = DateTime.UtcNow
         };
 
         var tokenHandler = new JwtSecurityTokenHandler();
