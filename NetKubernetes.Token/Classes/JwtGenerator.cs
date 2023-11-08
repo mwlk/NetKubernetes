@@ -16,8 +16,7 @@ public class JwtGenerator : IJwtGenerator
             new Claim(JwtRegisteredClaimNames.NameId, user.UserName!),
             // new Claim("userId", user.Id!)
         };
-
-        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("My_Secret"));
+        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("My_s3cr3t_p455w03d_f0r_g3n3r4t3_jwt_1234$_p455w03d_3ncrypt3d_$_netcoreapi"));
 
         var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
 

@@ -70,7 +70,7 @@ builder.Services.AddScoped<IJwtGenerator, JwtGenerator>();
 
 builder.Services.AddScoped<IUserSession, UserSession>();
 
-var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("My_Secret"));
+var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("My_s3cr3t_p455w03d_f0r_g3n3r4t3_jwt_1234$_p455w03d_3ncrypt3d_$_netcoreapi"));
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(opt =>
     {
